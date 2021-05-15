@@ -22,31 +22,31 @@ public class CsvUtility {
             "revenue","runtime","spoken_languages","status","tagline",
             "title","video","vote_average","vote_count"};
 
-    @PostConstruct
-    public void init() {
-        try(BufferedReader fileReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(DATA_URL)));
-            CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
-        ){
-            List<Movie> movies = new ArrayList<>();
-            Iterable<CSVRecord> csvRecords = csvParser.getRecords();
-            for (CSVRecord csvRecord : csvRecords) {
-                Movie movie = new Movie(
-                        Long.parseLong(csvRecord.get(5)),
-                        csvRecord.get(20),
-                        csvRecord.get(3),
-                        csvRecord.get(6),
-                        Long.parseLong(csvRecord.get(2))
-                );
-                System.out.println(movie.toString());
-                movies.add(movie);
-            }
-        } catch (FileNotFoundException fne) {
-            fne.printStackTrace();
-            throw new RuntimeException("CSV file not found " + fne.getMessage());
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            throw new RuntimeException("Failed to parse CSV file: "+ ioe.getMessage());
-        }
-    }
+//    @PostConstruct
+//    public void init() {
+//        try(BufferedReader fileReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(DATA_URL)));
+//            CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
+//        ){
+//            List<Movie> movies = new ArrayList<>();
+//            Iterable<CSVRecord> csvRecords = csvParser.getRecords();
+//            for (CSVRecord csvRecord : csvRecords) {
+//                Movie movie = new Movie(
+//                        Long.parseLong(csvRecord.get(5)),
+//                        csvRecord.get(20),
+//                        csvRecord.get(3),
+//                        csvRecord.get(6),
+//                        Long.parseLong(csvRecord.get(2))
+//                );
+//                System.out.println(movie.toString());
+//                movies.add(movie);
+//            }
+//        } catch (FileNotFoundException fne) {
+//            fne.printStackTrace();
+//            throw new RuntimeException("CSV file not found " + fne.getMessage());
+//        } catch (IOException ioe) {
+//            ioe.printStackTrace();
+//            throw new RuntimeException("Failed to parse CSV file: "+ ioe.getMessage());
+//        }
+//    }
 
 }
