@@ -30,6 +30,25 @@ public class MovieControllerTest {
     private MovieService movieService;
 
     @Test
+    public void getMoviesByGenre_shouldReturnInGenre() throws Exception {
+        int numOfMovies = 10;
+        String minBudget = "3000", maxBudget="6000";
+
+        List<Movie> moviesInGenre = new ArrayList<>();
+        for(int i = 1; i <= numOfMovies; i++){
+            if(i % 2 == 0) {
+                Movie movie = new Movie(Long.parseLong(String.valueOf(i)),"My Movie"+i,"Comedy","tt00"+i,Long.parseLong("1000")*i);
+                moviesInGenre.add(movie);
+            }
+        }
+        given(movieService.findByGenre(anyString())).willReturn(moviesInGenre);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/movies?genre=Comedy"))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
     public void getMoviesByMinMaxBudget_shouldReturnWithinRange() throws Exception {
         int numOfMovies = 10;
         String minBudget = "3000", maxBudget="6000";

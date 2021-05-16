@@ -20,6 +20,11 @@ public class MovieController {
         this.movieService = movieService;
     }
 
+    @GetMapping(value="/movies", params={"genre"})
+    private List<Movie> getInGenre(@RequestParam(value="genre") String genre) {
+        return movieService.findByGenre(genre);
+    }
+
     @GetMapping(value="/movies", params={"minBudget", "maxBudget"})
     private List<Movie> getInBudgetRange(@RequestParam(value="minBudget") String minBudget, @RequestParam(value="maxBudget") String maxBudget) {
         return movieService.findByBudgetRange(minBudget, maxBudget);

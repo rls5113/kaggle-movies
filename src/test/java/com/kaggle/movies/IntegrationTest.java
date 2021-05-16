@@ -26,15 +26,25 @@ public class IntegrationTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void getByMoviesInBudgetRange_returnsProperRecords() throws Exception {
+    public void getByMoviesByGenres_returnsAllMoviesInGenre() throws Exception {
 
-        ResponseEntity<Movie[]> response =  restTemplate.getForEntity("/movies?minBudget=3000000&maxBudget=4000000", Movie[].class);
+        ResponseEntity<Movie[]> response =  restTemplate.getForEntity("/movies?genre=Comedy", Movie[].class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         Movie[] results = response.getBody();
-        assertThat(results.length).isGreaterThanOrEqualTo(50);
-
+        assertThat(results.length).isGreaterThanOrEqualTo(72);
     }
+
+    @Test
+    public void getByMoviesInBudgetRange_returnsProperRecords() throws Exception {
+
+        ResponseEntity<Movie[]> response =  restTemplate.getForEntity("/movies?minBudget=3000000&maxBudget=6000000", Movie[].class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Movie[] results = response.getBody();
+        assertThat(results.length).isGreaterThanOrEqualTo(7);
+    }
+
     @Test
     public void getAllMovies_returnsAtLeast100() throws Exception {
 
@@ -45,6 +55,7 @@ public class IntegrationTest {
         assertThat(results.length).isGreaterThanOrEqualTo(100);
 
     }
+
     @Test
     public void getMovieByImdbId_returnsCorrectMovie() throws Exception {
 

@@ -1,10 +1,14 @@
 package com.kaggle.movies.model;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor

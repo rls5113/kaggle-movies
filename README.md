@@ -18,7 +18,7 @@ When the parameters are provided, the endpoint should have logic to open the CSV
 
 • /movies?genre=Comedy (fetches all the records with the genre equal to Comedy);
 
-• /movies?minBudget=1000000&maxBudget=50000000 (fetches all the movies with budgets between 1 and 50 million dollars).
+~~• /movies?minBudget=1000000&maxBudget=50000000 (fetches all the movies with budgets between 1 and 50 million dollars).~~
 
 The results can be capped for the first 100 records, if the results get too large.
 

@@ -29,6 +29,25 @@ public class MovieRepositoryTest {
 
 
     @Test
+    public void findByGenre_returnsMoviesInGenre() throws Exception {
+        int numOfMovies = 10;
+
+        List<Movie> moviesInGenre = new ArrayList<>();
+        for(int i = 1; i <= numOfMovies; i++){
+            if(i % 2 == 0) {
+                Movie movie = new Movie(Long.parseLong(String.valueOf(i)),"My Movie"+i,"Comedy","tt00"+i,Long.parseLong("1000")*i);
+                moviesInGenre.add(movie);
+            }
+        }
+
+        List<Movie> savedList = testEntityManager.persistFlushFind(moviesInGenre);
+        List<Movie> result = movieRepository.findByGenres("Comedy");
+
+        assertThat(result.size()).isEqualTo(savedList);
+        assertThat(result.equals(savedList));
+    }
+
+    @Test
     public void findByBudgetRange_returnsMoviesWithinRange() throws Exception {
         int numOfMovies = 10;
         String minBudget = "3000", maxBudget="6000";
@@ -42,7 +61,7 @@ public class MovieRepositoryTest {
         }
 
         List<Movie> savedList = testEntityManager.persistFlushFind(moviesInBudgetRange);
-        List<Movie> result = movieRepository.findAll();
+        List<Movie> result = movieRepository.findByBudget(minBudget, maxBudget);
 
         assertThat(result.size()).isEqualTo(savedList);
         assertThat(result.equals(savedList));
@@ -63,7 +82,6 @@ public class MovieRepositoryTest {
 
         assertThat(result.size()).isEqualTo(savedList);
         assertThat(result.equals(savedList));
-
     }
 
     @Test
@@ -77,6 +95,5 @@ public class MovieRepositoryTest {
         assertThat(result.getGenres()).isEqualTo(savedMovie.getGenres());
         assertThat(result.getImdbId()).isEqualTo(savedMovie.getImdbId());
         assertThat(result.getBudget()).isEqualTo(savedMovie.getBudget());
-
     }
 }
