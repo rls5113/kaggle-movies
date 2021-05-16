@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
 
 
 @RunWith(SpringRunner.class)
@@ -24,6 +26,28 @@ public class MovieRepositoryTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
+
+
+    @Test
+    public void findByBudgetRange_returnsMoviesWithinRange() throws Exception {
+        int numOfMovies = 10;
+        String minBudget = "3000", maxBudget="6000";
+
+        List<Movie> moviesInBudgetRange = new ArrayList<>();
+        for(int i = 1; i <= numOfMovies; i++){
+            Movie movie = new Movie(Long.parseLong(String.valueOf(i)),"My Movie"+i,"genres","tt00"+i,Long.parseLong("1000")*i);
+            if((movie.getBudget() >= Long.parseLong(minBudget) &&  movie.getBudget()  <= Long.parseLong(maxBudget))) {
+                moviesInBudgetRange.add(movie);
+            }
+        }
+
+        List<Movie> savedList = testEntityManager.persistFlushFind(moviesInBudgetRange);
+        List<Movie> result = movieRepository.findAll();
+
+        assertThat(result.size()).isEqualTo(savedList);
+        assertThat(result.equals(savedList));
+
+    }
 
     @Test
     public void findAll_returnsAll() throws Exception {

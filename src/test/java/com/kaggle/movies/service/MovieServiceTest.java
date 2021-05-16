@@ -13,7 +13,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -25,6 +30,46 @@ class MovieServiceTest {
 
     @InjectMocks
     private MovieService movieService;
+
+    @Test
+    public void findByBudgetRange_returnsMoviesWithinRange() throws Exception {
+        int numOfMovies = 10;
+        String minBudget = "3000", maxBudget="6000";
+
+        List<Movie> moviesInBudgetRange = new ArrayList<>();
+        for(int i = 1; i <= numOfMovies; i++){
+            Movie movie = new Movie(Long.parseLong(String.valueOf(i)),"My Movie"+i,"genres","tt00"+i,Long.parseLong("1000")*i);
+            if((movie.getBudget() >= Long.parseLong(minBudget) &&  movie.getBudget()  <= Long.parseLong(maxBudget))) {
+                moviesInBudgetRange.add(movie);
+            }
+        }
+        given(movieRepository.findByBudget(anyString(),anyString())).willReturn(moviesInBudgetRange);
+        List<Movie> result = movieRepository.findByBudget(minBudget, maxBudget);
+
+//        given(movieRepository.findByBudget(anyLong(),anyLong())).willReturn(moviesInBudgetRange);
+//        List<Movie> result = movieRepository.findByBudget(Long.parseLong(minBudget), Long.parseLong(maxBudget));
+
+        assertThat(result.size()).isEqualTo(4);
+        assertThat(result.equals(moviesInBudgetRange));
+    }
+
+    @Test
+    public void findAll_returnsAll() throws Exception {
+        int numOfMovies = 10;
+        List<Movie> manyMovies = new ArrayList<>();
+        for(int i = 1; i <= numOfMovies; i++){
+            Movie movie = new Movie(Long.parseLong(String.valueOf(i)),"My Movie"+i,"genres","tt00"+i,Long.parseLong("1000")*i);
+            manyMovies.add(movie);
+        }
+
+        given(movieRepository.findAll()).willReturn(manyMovies);
+
+        List<Movie> result = movieRepository.findAll();
+
+        assertThat(result.size()).isEqualTo(10);
+        assertThat(result.equals(manyMovies));
+
+    }
 
     @Test
     public void getMovieByImdbId_shouldReturnMovie() throws Exception {

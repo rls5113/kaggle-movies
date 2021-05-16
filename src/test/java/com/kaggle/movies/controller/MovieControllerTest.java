@@ -30,6 +30,25 @@ public class MovieControllerTest {
     private MovieService movieService;
 
     @Test
+    public void getMoviesByMinMaxBudget_shouldReturnWithinRange() throws Exception {
+        int numOfMovies = 10;
+        String minBudget = "3000", maxBudget="6000";
+
+        List<Movie> moviesInBudgetRange = new ArrayList<>();
+        for(int i = 1; i <= numOfMovies; i++){
+            Movie movie = new Movie(Long.parseLong(String.valueOf(i)),"My Movie"+i,"genres","tt00"+i,Long.parseLong("1000")*i);
+            if((movie.getBudget() >= Long.parseLong(minBudget) &&  movie.getBudget()  <= Long.parseLong(maxBudget))) {
+                moviesInBudgetRange.add(movie);
+            }
+        }
+        given(movieService.findByBudgetRange(anyString(),anyString())).willReturn(moviesInBudgetRange);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/movies?minBudget="+minBudget+"&maxBudget="+maxBudget))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
     public void getAllMovies_shouldReturnAll() throws Exception {
         int numOfMovies = 10;
         List<Movie> manyMovies = new ArrayList<>();

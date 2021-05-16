@@ -18,6 +18,18 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
+    public List<Movie> findByBudgetRange(String minBudget, String maxBudget) {
+//        Long minLong = Long.getLong(minBudget);
+//        Long maxLong = Long.getLong(maxBudget);
+
+        List<Movie> result = movieRepository.findByBudget(minBudget, maxBudget);
+//        List<Movie> result = movieRepository.findByBudget(minLong, maxLong);
+        if(result == null || result.size() == 0 ){
+            throw new MovieNotFoundException();
+        }
+        return result;
+    }
+
     public List<Movie> findAllMovies() {
         List<Movie> result = movieRepository.findAll();
         if(result == null || result.size() == 0){

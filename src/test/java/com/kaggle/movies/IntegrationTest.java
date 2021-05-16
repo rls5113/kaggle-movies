@@ -26,13 +26,13 @@ public class IntegrationTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void getMovieByImdbId_returnsCorrectMovie() throws Exception {
+    public void getByMoviesInBudgetRange_returnsProperRecords() throws Exception {
 
-        ResponseEntity<Movie> response =  restTemplate.getForEntity("/movies?imdbId=tt0114709", Movie.class);
+        ResponseEntity<Movie[]> response =  restTemplate.getForEntity("/movies?minBudget=3000000&maxBudget=4000000", Movie[].class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody().getImdbId()).isEqualTo("tt0114709");
-        assertThat(response.getBody().getTitle()).isEqualTo("Toy Story");
+        Movie[] results = response.getBody();
+        assertThat(results.length).isGreaterThanOrEqualTo(50);
 
     }
     @Test
@@ -43,6 +43,16 @@ public class IntegrationTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         Movie[] results = response.getBody();
         assertThat(results.length).isGreaterThanOrEqualTo(100);
+
+    }
+    @Test
+    public void getMovieByImdbId_returnsCorrectMovie() throws Exception {
+
+        ResponseEntity<Movie> response =  restTemplate.getForEntity("/movies?imdbId=tt0114709", Movie.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().getImdbId()).isEqualTo("tt0114709");
+        assertThat(response.getBody().getTitle()).isEqualTo("Toy Story");
 
     }
 }
