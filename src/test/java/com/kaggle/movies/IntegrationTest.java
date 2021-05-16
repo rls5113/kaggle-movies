@@ -1,14 +1,19 @@
 package com.kaggle.movies;
 
 import com.kaggle.movies.model.Movie;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -22,15 +27,22 @@ public class IntegrationTest {
 
     @Test
     public void getMovieByImdbId_returnsCorrectMovie() throws Exception {
-        //arrange
 
-        //act
-        ResponseEntity<Movie> response =  restTemplate.getForEntity("/movies?imdbId=tt001", Movie.class);
+        ResponseEntity<Movie> response =  restTemplate.getForEntity("/movies?imdbId=tt0114709", Movie.class);
 
-        //assert
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody().getImdbId()).isEqualTo("tt001");
-        assertThat(response.getBody().getTitle()).isEqualTo("My Movie");
+        assertThat(response.getBody().getImdbId()).isEqualTo("tt0114709");
+        assertThat(response.getBody().getTitle()).isEqualTo("Toy Story");
+
+    }
+    @Test
+    public void getAllMovies_returnsAtLeast100() throws Exception {
+
+        ResponseEntity<Movie[]> response =  restTemplate.getForEntity("/movies", Movie[].class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Movie[] results = response.getBody();
+        assertThat(results.length).isGreaterThanOrEqualTo(100);
 
     }
 }

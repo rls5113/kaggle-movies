@@ -14,7 +14,7 @@ The goal is to build a Spring Boot application that will offer one /movies (GET)
 
 When the parameters are provided, the endpoint should have logic to open the CSV and traverse its records, matching records with the parameters given. For instance:
 
-• /movies?imdbDb=tt0114709 (fetches one record by the IMDB ID, in this case, 'Toy Story Collection');
+• ~~/movies?imdbDb=tt0114709 (fetches one record by the IMDB ID, in this case, 'Toy Story Collection');~~
 
 • /movies?genre=Comedy (fetches all the records with the genre equal to Comedy);
 
@@ -22,6 +22,6 @@ When the parameters are provided, the endpoint should have logic to open the CSV
 
 The results can be capped for the first 100 records, if the results get too large.
 
-Calling /movies without parameters is also an option.
+~~Calling /movies without parameters is also an option.~~
 
 Unit Tests are expected, using jUnit and Mockito. 

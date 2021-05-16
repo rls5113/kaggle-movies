@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class MovieController {
 
@@ -16,10 +18,17 @@ public class MovieController {
     public MovieController(MovieService movieService) {
         this.movieService = movieService;
     }
-    @GetMapping("/movies")
+
+//    @GetMapping(value="/movies", params={})
+    @GetMapping(value="/movies", params={"imdbId"})
     private Movie getMovieByImdbId(@RequestParam(value="imdbId") String imdbId) {
         return movieService.findByImdbId(imdbId);
     }
+    @GetMapping("/movies")
+    private List<Movie> getAllMovies() {
+        return movieService.findAllMovies();
+    }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     private void movieNotFoundHandler(MovieNotFoundException exception){}

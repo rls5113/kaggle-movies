@@ -12,6 +12,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -25,6 +28,21 @@ public class MovieControllerTest {
 
     @MockBean
     private MovieService movieService;
+
+    @Test
+    public void getAllMovies_shouldReturnAll() throws Exception {
+        int numOfMovies = 10;
+        List<Movie> manyMovies = new ArrayList<>();
+        for(int i = 1; i <= numOfMovies; i++){
+            Movie movie = new Movie(Long.parseLong(String.valueOf(i)),"My Movie"+i,"genres","tt00"+i,Long.parseLong("1000")*i);
+            manyMovies.add(movie);
+        }
+        given(movieService.findAllMovies()).willReturn(manyMovies);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/movies"))
+                .andExpect(status().isOk());
+    }
+
     @Test
     public void getMovieByImdbId_shouldReturnMovie() throws Exception {
 
@@ -38,6 +56,7 @@ public class MovieControllerTest {
                 .andExpect(jsonPath("genres").value("genres"))
                 .andExpect(jsonPath("budget").value(Long.parseLong("1000")));
     }
+
     @Test
     public void getMovieByImdbIdNotInDB_throwsMovieNotFoundException() throws Exception {
 
