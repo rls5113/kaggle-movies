@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "01a9ed08-97c1-4f46-bcca-e20d1ae0264e",
+		"name": "kaggle data",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get by imdbId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/movies?imdbId=tt0113101",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movies"
+					],
+					"query": [
+						{
+							"key": "imdbId",
+							"value": "tt0113101"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/movies",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/movies?minBudget=3000000&maxBudget=6000000",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/movies?minBudget=3000000&maxBudget=6000000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movies"
+					],
+					"query": [
+						{
+							"key": "minBudget",
+							"value": "3000000"
+						},
+						{
+							"key": "maxBudget",
+							"value": "6000000"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

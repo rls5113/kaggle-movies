@@ -34,7 +34,7 @@ public class CsvUtility {
         ){
             List<Movie> movies = new ArrayList<>();
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
-            System.out.println("BEGIN LOADING DATA FROM CSV TO H2");
+            System.out.println("BEGIN LOADING DATA FROM CSV TO H2: "+DATA_URL);
             for (CSVRecord csvRecord : csvRecords) {
                 Movie movie = new Movie(
                         Long.parseLong(csvRecord.get(5)),
@@ -47,6 +47,7 @@ public class CsvUtility {
                 movies.add(movie);
             }
             movieRepository.saveAll(movies);
+            System.out.println("DATA SUCCESSFULLY LOADED TO H2");
         } catch (FileNotFoundException fne) {
             fne.printStackTrace();
             throw new RuntimeException("CSV file not found " + fne.getMessage());
