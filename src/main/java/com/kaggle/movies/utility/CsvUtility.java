@@ -34,6 +34,7 @@ public class CsvUtility {
         ){
             List<Movie> movies = new ArrayList<>();
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
+            System.out.println("BEGIN LOADING DATA FROM CSV TO H2");
             for (CSVRecord csvRecord : csvRecords) {
                 Movie movie = new Movie(
                         Long.parseLong(csvRecord.get(5)),

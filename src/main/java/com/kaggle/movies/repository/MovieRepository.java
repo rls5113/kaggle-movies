@@ -19,6 +19,7 @@ public interface MovieRepository extends CrudRepository<Movie, Long> {
     List<Movie> findByBudget(@RequestParam("minBudget") String minBudget, @RequestParam("maxBudget") String maxBudget);
 
 //    @Query(nativeQuery = true, value="SELECT m.id, m.title, m.genres, m.imdb_id, m.budget  FROM Movie m WHERE :genre in JSON_OBJECT(m.genres)) ")
-    @Query(nativeQuery = true, value="SELECT m.id, m.title, m.genres, m.imdb_id, m.budget  FROM Movie m WHERE m.genres LIKE '%'||:genre||'%') ")
+//    @Query(nativeQuery = true, value="SELECT m.id, m.title, m.genres, m.imdb_id, m.budget  FROM Movie m WHERE m.genres LIKE '%'||:genre||'%') ")
+    @Query(nativeQuery = true, value="SELECT m.id, m.title, m.genres, m.imdb_id, m.budget  FROM Movie m ")
     List<Movie> findByGenres(@RequestParam("genre") String genre);
 }

@@ -1,7 +1,6 @@
 package com.kaggle.movies.repository;
 
 import com.kaggle.movies.model.Movie;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
 
 
 @RunWith(SpringRunner.class)
@@ -39,12 +36,15 @@ public class MovieRepositoryTest {
                 moviesInGenre.add(movie);
             }
         }
+        for(Movie movie : moviesInGenre) {
+            testEntityManager.persistAndFlush(movie);
+        }
 
-        List<Movie> savedList = testEntityManager.persistFlushFind(moviesInGenre);
+//        List<Movie> savedList = testEntityManager.persistFlushFind(moviesInGenre);
         List<Movie> result = movieRepository.findByGenres("Comedy");
 
-        assertThat(result.size()).isEqualTo(savedList);
-        assertThat(result.equals(savedList));
+        assertThat(result.size()).isEqualTo(moviesInGenre.size());
+        assertThat(result.equals(moviesInGenre));
     }
 
     @Test
@@ -60,11 +60,14 @@ public class MovieRepositoryTest {
             }
         }
 
-        List<Movie> savedList = testEntityManager.persistFlushFind(moviesInBudgetRange);
+        for(Movie movie : moviesInBudgetRange) {
+            testEntityManager.persistAndFlush(movie);
+        }
+//        List<Movie> savedList = testEntityManager.persistFlushFind(moviesInBudgetRange);
         List<Movie> result = movieRepository.findByBudget(minBudget, maxBudget);
 
-        assertThat(result.size()).isEqualTo(savedList);
-        assertThat(result.equals(savedList));
+        assertThat(result.size()).isEqualTo(moviesInBudgetRange.size());
+        assertThat(result.equals(moviesInBudgetRange));
 
     }
 
@@ -77,11 +80,14 @@ public class MovieRepositoryTest {
             manyMovies.add(movie);
         }
 
-        List<Movie> savedList = testEntityManager.persistFlushFind(manyMovies);
+        for(Movie movie : manyMovies) {
+            testEntityManager.persistAndFlush(movie);
+        }
+//        List<Movie> savedList = testEntityManager.persistFlushFind(manyMovies);
         List<Movie> result = movieRepository.findAll();
 
-        assertThat(result.size()).isEqualTo(savedList);
-        assertThat(result.equals(savedList));
+        assertThat(result.size()).isEqualTo(manyMovies.size());
+        assertThat(result.equals(manyMovies));
     }
 
     @Test
