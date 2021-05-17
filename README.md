@@ -21,7 +21,7 @@ The goal is to build a Spring Boot application that will offer one /movies (GET)
 
 ## IMPLEMENTATION DETAILS
 
-* Data is read from CSV file into H2 in memory database on application.
+* Data is read from CSV file into H2 in memory database on application startup.
 * Original file from kaggle movies has been trimmed down to provide the header plus 199 records.
 * H2 console is available at http://localhost:8080/h2-console [see application.properties for authentication].
 * Postman requests are available for import at /src/test/resources/postman.
